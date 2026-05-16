@@ -1,0 +1,33 @@
+{
+    "name": "api-node-solid",
+    "version": "1.0.0",
+    "description": "GymPass style app",
+    "main": "index.js",
+    "scripts": {
+        "dev": "tsx watch src/server.ts",
+        "start": "node build/server.js",
+        "build": "tsup src --out-dir build",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Edu-2de/api-node-solid.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "module",
+    "bugs": {
+        "url": "https://github.com/Edu-2de/api-node-solid/issues"
+    },
+    "homepage": "https://github.com/Edu-2de/api-node-solid#readme",
+    "devDependencies": {
+        "@types/node": "^25.8.0",
+        "tsup": "^8.5.1",
+        "tsx": "^4.22.0",
+        "typescript": "^6.0.3"
+    },
+    "dependencies": {
+        "fastify": "^5.8.5"
+    }
+}
