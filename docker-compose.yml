@@ -1,0 +1,10 @@
+version: "15"
+services:
+    db:
+        image: bitnami/postgresql:15
+        ports:
+            - 5432:5432
+        environment:
+            - POSTGRES_USER: docker
+            - POSTGRES_PASSWORD: docker
+            - POSTGRES_DB: api_solid
