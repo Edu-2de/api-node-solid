@@ -19,6 +19,5 @@ app.setErrorHandler((error, _request, reply) => {
         console.error(error);
     }
     //TODO
-
     return reply.status(500).send({ message: "Internal server error." });
 });
