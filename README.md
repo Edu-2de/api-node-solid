@@ -5,7 +5,7 @@ GymPass style app
 ## FRs (Functional Requirements)
 
 - [x] It must be possible to register;
-- [ ] It must be possible to authenticate;
+- [x] It must be possible to authenticate;
 - [ ] It must be possible to get the profile of a logged-in user;
 - [ ] It must be possible to get the number of check-ins made by the logged-in user;
 - [ ] It must be possible for the user to get their check-in history;
@@ -26,6 +26,6 @@ GymPass style app
 ## NFRs (Non-Functional Requirements)
 
 - [x] The user's password must be hashed;
-- [ ] Application data must be persisted in a PostgreSQL database;
+- [x] Application data must be persisted in a PostgreSQL database;
 - [ ] All data lists must be paginated with 20 items per page;
 - [ ] The user must be identified by a JWT (JSON Web Token);
