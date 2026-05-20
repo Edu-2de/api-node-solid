@@ -1,9 +1,13 @@
 import type { CheckIn } from "@/generated/prisma/client.js";
 import type { CheckInsRepository } from "@/repositories/check-ins-repository.js";
+import type { GymsRepository } from "@/repositories/gyms-repository.js";
+import { ResourceNotFoundError } from "./errors/resource-not-found-error.js";
 
 interface CheckInUseCaseRequest {
     userId: string;
     gymId: string;
+    userLatitude: number;
+    userLongitude: number;
 }
 
 interface CheckInUseCaseResponse {
@@ -11,17 +15,24 @@ interface CheckInUseCaseResponse {
 }
 
 export class CheckInUseCase {
-    constructor(private checkInsRepository: CheckInsRepository) {}
+    constructor(
+        private checkInsRepository: CheckInsRepository,
+        private gymRepository: GymsRepository,
+    ) {}
 
-    async execute({
-        userId,
-        gymId,
-    }: CheckInUseCaseRequest): Promise<CheckInUseCaseResponse> {
-        const checkInOnSameDay =
-            await this.checkInsRepository.findByUserIdOnDate(
-                userId,
-                new Date(),
-            );
+    async execute({ userId, gymId }: CheckInUseCaseRequest): Promise<CheckInUseCaseResponse> {
+        const gym = await this.gymRepository.findById(gymId);
+
+        if (!gym) {
+            throw new ResourceNotFoundError();
+        }
+
+        //TODO calculate the distance between user and gym
+
+        const checkInOnSameDay = await this.checkInsRepository.findByUserIdOnDate(
+            userId,
+            new Date(),
+        );
 
         if (checkInOnSameDay) {
             throw new Error();
