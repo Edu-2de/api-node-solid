@@ -6,6 +6,16 @@ import type { CheckInsRepository } from "../check-ins-repository.js";
 export class InMemoryCheckInsRepository implements CheckInsRepository {
     public items: CheckIn[] = [];
 
+    async findByUserIdOnDate(userId: string, date: Date) {
+        const findUserIdInDate = this.items.find(
+            (checkIn) => checkIn.user_id === userId,
+        );
+        if (!findUserIdInDate) {
+            return null;
+        }
+        return findUserIdInDate;
+    }
+
     async create(data: CheckInUncheckedCreateInput) {
         const checkIn = {
             id: randomUUID(),
