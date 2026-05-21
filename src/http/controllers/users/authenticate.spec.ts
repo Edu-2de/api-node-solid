@@ -1,7 +1,6 @@
 import { app } from '@/app.js';
-import { prisma } from '@/lib/prisma.js';
 import request from 'supertest';
-import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
+import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 describe('Authenticate (e2e)', () => {
   beforeAll(async () => {
@@ -10,10 +9,6 @@ describe('Authenticate (e2e)', () => {
 
   afterAll(async () => {
     await app.close();
-  });
-
-  beforeEach(async () => {
-    await prisma.user.deleteMany();
   });
 
   it('should be able to authenticate', async () => {

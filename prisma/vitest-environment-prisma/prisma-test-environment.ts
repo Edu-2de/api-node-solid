@@ -1,8 +1,7 @@
-import { prisma } from '@/lib/prisma.js';
 import 'dotenv/config';
 import { execSync } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
-import type { Environment } from 'vitest/environments';
+import { Client } from 'pg';
 
 function generateDataBaseUrl(schema: string) {
   if (!process.env.DATABASE_URL) {
@@ -10,15 +9,13 @@ function generateDataBaseUrl(schema: string) {
   }
 
   const url = new URL(process.env.DATABASE_URL);
-
   url.searchParams.set('schema', schema);
 
   return url.toString();
 }
 
-export default <Environment>{
+export default {
   name: 'prisma',
-  viteEnvironment: 'ssr',
   async setup() {
     const schema = randomUUID();
     const databaseUrl = generateDataBaseUrl(schema);
@@ -29,11 +26,11 @@ export default <Environment>{
 
     return {
       async teardown() {
-        await prisma.$executeRawUnsafe(
-          `DROP SCHEMA IF EXISTS "${schema}" CASCADE`,
-        );
+        const client = new Client({ connectionString: databaseUrl });
 
-        await prisma.$disconnect();
+        await client.connect();
+        await client.query(`DROP SCHEMA IF EXISTS "${schema}" CASCADE`);
+        await client.end();
       },
     };
   },

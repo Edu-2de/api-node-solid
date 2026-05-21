@@ -1,11 +1,9 @@
 import { app } from '@/app.js';
-import { prisma } from '@/lib/prisma.js';
 import { createAndAuthenticateUser } from '@/utils/test/create-and-authtenticate-user.js';
-import { afterEach } from 'node:test';
 import request from 'supertest';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
-describe('Search (e2e)', () => {
+describe('Search Gyms (e2e)', () => {
   beforeAll(async () => {
     await app.ready();
   });
@@ -14,11 +12,7 @@ describe('Search (e2e)', () => {
     await app.close();
   });
 
-  afterEach(async () => {
-    await prisma.user.deleteMany();
-  });
-
-  it('should be able to search a gym', async () => {
+  it('should be able to search gyms by title', async () => {
     const { token } = await createAndAuthenticateUser(app);
 
     await request(app.server)
@@ -37,7 +31,8 @@ describe('Search (e2e)', () => {
       .query({
         q: 'TypeScript',
       })
-      .set('Authorization', `Bearer ${token}`);
+      .set('Authorization', `Bearer ${token}`)
+      .send();
 
     expect(response.statusCode).toEqual(200);
     expect(response.body.gyms).toHaveLength(1);

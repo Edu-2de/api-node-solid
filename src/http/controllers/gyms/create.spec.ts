@@ -1,8 +1,7 @@
 import { app } from '@/app.js';
-import { prisma } from '@/lib/prisma.js';
 import { createAndAuthenticateUser } from '@/utils/test/create-and-authtenticate-user.js';
 import request from 'supertest';
-import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
+import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 describe('Create Gym (e2e)', () => {
   beforeAll(async () => {
@@ -11,10 +10,6 @@ describe('Create Gym (e2e)', () => {
 
   afterAll(async () => {
     await app.close();
-  });
-
-  beforeEach(async () => {
-    await prisma.user.deleteMany();
   });
 
   it('should be able to create a gym', async () => {
