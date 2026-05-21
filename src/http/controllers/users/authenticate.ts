@@ -23,16 +23,9 @@ export async function authenticate(
       password,
     });
 
-    const token = reply.jwtSign(
-      {},
-      {
-        sign: {
-          sub: user.id,
-        },
-      },
-    );
+    const token = await reply.jwtSign({ sub: user.id });
 
-    return reply.status(201).send({ token });
+    return reply.status(200).send({ token });
   } catch (err) {
     if (err instanceof InvalidCredentialsError) {
       return reply.status(400).send({
